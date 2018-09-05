@@ -8,6 +8,7 @@ import * as ml from "./mostLosers";
 import * as mf from "./mostFocus";
 import * as iv from "./iexVolume";
 import * as ip from "./iexPercent";
+import * as crypto from "./cryptocurrency";
 let score = 0; 
 
 var args = require('yargs')
@@ -39,6 +40,9 @@ var args = require('yargs')
     .describe('weeklyipo', 'Weekly IPO\'s')
     .alias('ipo', 'weeklyipo')
     .default('ipo', 'no')
+    .describe('cryptocurrency', 'Cryptocurrencies')
+    .alias('c', 'cryptocurrency')
+    .default('c', 'no')
     //.demandOption(['s'])
     .help('h')
     .alias('h', 'help')
@@ -54,6 +58,7 @@ let mostFocus:string = args.mostfocus;
 let iexVolume:string = args.iexvolume;
 let iexPercent:string = args.iexpercent;
 let weeklyIpo:string = args.weeklyipo;
+let cryptocurrency:string = args.cryptocurrency;
 
 //console.log(stockSymbol);
 //console.log(mostActive);
@@ -102,6 +107,9 @@ async function runIexVolume(): Promise<void>{
 async function runIexPercent(): Promise<void>{
     await ip.getIexPercent();
 }
+async function runCryptocurrency(): Promise<void>{
+    await crypto.getCryptocurrency();
+}
 
 
 if(stockSymbol != 'no'){
@@ -127,4 +135,7 @@ if(iexVolume === 'yes'){
 }
 if(iexPercent === 'yes'){
     runIexPercent();
+}
+if(cryptocurrency === 'yes'){
+    runCryptocurrency();
 }

@@ -34,3 +34,6 @@ Most In Focus `node run.js --mf=yes`
 IEX Volume `node run.js --iv=yes`
 
 IEX Percent `node run.js --ip=yes`
+
+## Cryptocurrency
+`node run.js --c=yes`
