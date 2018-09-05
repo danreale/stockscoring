@@ -14,6 +14,8 @@ export async function getBook(stockSymbol: string): Promise<number>{
     let json = await axios.get(url);
 
     //Response Numbers needed for calculations
+    let symbol: string = await json.data.quote.symbol;
+    let companyName: string = await json.data.quote.companyName;
     let openPrice: number = await json.data.quote.open;
     let closePrice: number = await json.data.quote.close;
     let peRatio: number = await json.data.quote.peRatio;
@@ -22,18 +24,27 @@ export async function getBook(stockSymbol: string): Promise<number>{
     let week52High: number = await json.data.quote.week52High;
     let week52Low: number = await json.data.quote.week52Low;
     let marketCap: number = await json.data.quote.marketCap;
+    let change: number = await json.data.quote.change;
+    let changePercent: number = await json.data.quote.changePercent;
 
     //Technical Indicator Calculations
+    let info:string = await companyInfo(symbol, companyName);
+    console.log(info);
     await calcPrice('Open Close Price', openPrice, closePrice);
     await calcPERatio('PERatio', peRatio);
     await calc52WeekHighLow('52 Week High Low', high, low, week52High, week52Low, closePrice);
     await calcMarketCap(marketCap);
+    await calcChange(change);
+    await calcChangePercent(changePercent);
     scoring = await getScore();
 
     //return score
     return scoring;
 }
 
+async function companyInfo(symbol:string, companyName:string){
+    return `${symbol}: ${companyName}`;
+}
 async function calcPrice(stat:string, open:number, close:number){
     if (open > close){
         score = score - 1;
@@ -132,6 +143,37 @@ async function calcMarketCap(marketCap: number){
     }
     else if(marketCap < 50000000){
         console.log('Nano Cap. Most Risky. Potential for gain is small. +1');
+        score = score + 1;
+        console.log(`current score is ${score}`);
+    }
+}
+
+async function calcChange(change: number){
+    if(change >= 0){
+        console.log('Positive Change. +1');
+        score = score + 1;
+        console.log(`current score is ${score}`);
+    }
+    else if(change < 0){
+        console.log('Negative Change. -1');
+        score = score - 1;
+        console.log(`current score is ${score}`);
+    }
+}
+
+async function calcChangePercent(changePercent: number){
+    if(changePercent >= 1){
+        console.log('Positive Change. +2');
+        score = score + 2;
+        console.log(`current score is ${score}`);
+    }
+    else if(changePercent < 0){
+        console.log('Negative Change. -1');
+        score = score - 1;
+        console.log(`current score is ${score}`);
+    }
+    else{
+        console.log('Small Change. +1');
         score = score + 1;
         console.log(`current score is ${score}`);
     }
