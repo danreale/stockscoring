@@ -24,5 +24,3 @@ export async function getIPOS(): Promise<void>{
         await email.sendEmail(symbol, body);
     }
 }
-
-getIPOS();

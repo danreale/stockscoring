@@ -1,14 +1,14 @@
 # Stock Scoring
 Scoring a stock based on technical indicators.
 
-## How to run
+## How to run Stock Score
 Example on how to score Apple's stock
-`node run.js -s=aapl`
+`node run.js --s=aapl`
 
 ## IPO's
 `node weeklyipos.js`
 Be sure to set the email addresses in the config.json before running
-I would create a Jenkins job to run this once a week (Monday's)
+`node run.js --ipo=yes`
 
 ## How to compile typescript
 `tsc -p ./tsconfig.json`
@@ -20,4 +20,18 @@ I would create a Jenkins job to run this once a week (Monday's)
     "emailAddress": "sentfrom@gmail.com",
     "emailPassword": "test",
     "emailTo": "sendto@gmail.com"
-}```
+}
+```
+
+## How to run List Examples
+Most Active `node run.js --ma=yes`
+
+Most Gained `node run.js --mg=yes`
+
+Most Losers `node run.js --ml=yes`
+
+Most In Focus `node run.js --mf=yes`
+
+IEX Volume `node run.js --iv=yes`
+
+IEX Percent `node run.js --ip=yes`
