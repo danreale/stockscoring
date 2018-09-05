@@ -6,7 +6,6 @@ Example on how to score Apple's stock
 `node run.js --s=aapl`
 
 ## IPO's
-`node weeklyipos.js`
 Be sure to set the email addresses in the config.json before running
 `node run.js --ipo=yes`
 
