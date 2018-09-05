@@ -11,6 +11,9 @@ import * as ip from "./iexPercent";
 import * as crypto from "./cryptocurrency";
 import * as dividend from "./dividends";
 import * as earnings from "./earnings";
+import * as peer from "./peers";
+import * as stockNews from "./stockNews";
+import * as marketNews from "./marketNews";
 let score = 0; 
 
 var args = require('yargs')
@@ -18,6 +21,9 @@ var args = require('yargs')
     .describe('stock', 'Stock symbol')
     .alias('s', 'stock')
     .default('s', 'no')
+    .describe('scoring', 'Stock symbol for scoring')
+    .alias('sc', 'scoring')
+    .default('sc', 'no')
     //.describe('email', 'Email address')
     //.alias('e', 'email')
     //.default('email', 'off')
@@ -45,6 +51,15 @@ var args = require('yargs')
     .describe('cryptocurrency', 'Cryptocurrencies')
     .alias('c', 'cryptocurrency')
     .default('c', 'no')
+    .describe('peers', 'Stock Peers')
+    .alias('p', 'peers')
+    .default('p', 'no')
+    .describe('stocknews', 'Stock News')
+    .alias('sn', 'stocknews')
+    .default('sn', 'no')
+    .describe('marketnews', 'Market News')
+    .alias('mn', 'marketnews')
+    .default('mn', 'no')
     //.demandOption(['s'])
     .help('h')
     .alias('h', 'help')
@@ -52,6 +67,7 @@ var args = require('yargs')
     .argv;
 
 let stockSymbol:string = args.stock;
+let stockSymbolScoring:string = args.scoring;
 //var email = args.email; // on or off
 let mostActive:string = args.mostactive;
 let mostGained:string = args.mostgained;
@@ -61,24 +77,27 @@ let iexVolume:string = args.iexvolume;
 let iexPercent:string = args.iexpercent;
 let weeklyIpo:string = args.weeklyipo;
 let cryptocurrency:string = args.cryptocurrency;
+let peers:string = args.peers;
+let stocknews:string = args.stocknews;
+let marketnews:string = args.marketnews;
 
 //console.log(stockSymbol);
 //console.log(mostActive);
 
 
 async function getPrice(): Promise<void>{
-    let stockPrice = await price.getPrice(stockSymbol);
+    let stockPrice = await price.getPrice(stockSymbolScoring);
     console.log(`Current Stock Price ${stockPrice}`);
 }
 
 async function runStocks(): Promise<void>{
-let books: number = await book.getBook(stockSymbol);
+let books: number = await book.getBook(stockSymbolScoring);
 score = score + books;
 
-let dividends: number = await dividend.getDividends(stockSymbol);
+let dividends: number = await dividend.getDividends(stockSymbolScoring);
 score = score + dividends;
 
-let earning: number =  await earnings.getEarnings(stockSymbol);
+let earning: number =  await earnings.getEarnings(stockSymbolScoring);
 score = score + earning;
 }
 
@@ -116,9 +135,17 @@ async function runIexPercent(): Promise<void>{
 async function runCryptocurrency(): Promise<void>{
     await crypto.getCryptocurrency();
 }
+async function runPeers(): Promise<void>{
+    await peer.getPeerStocks(stockSymbol);
+}
+async function runStockNews(): Promise<void>{
+    await stockNews.getStockNews(stockSymbol);
+}
+async function runMarketNews(): Promise<void>{
+    await marketNews.getMarketNews();
+}
 
-
-if(stockSymbol != 'no'){
+if(stockSymbolScoring != 'no'){
     runAll();
 }
 if(weeklyIpo === 'yes'){
@@ -144,4 +171,13 @@ if(iexPercent === 'yes'){
 }
 if(cryptocurrency === 'yes'){
     runCryptocurrency();
+}
+if((peers === 'yes') && (stockSymbol != 'no')){
+    runPeers();
+}
+if((stocknews === 'yes') && (stockSymbol != 'no')){
+    runStockNews();
+}
+if(marketnews === 'yes'){
+    runMarketNews();
 }

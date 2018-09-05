@@ -3,7 +3,7 @@ Scoring a stock based on technical indicators.
 
 ## How to run Stock Score
 Example on how to score Apple's stock
-`node run.js --s=aapl`
+`node run.js --sc=aapl`
 
 ## IPO's
 Be sure to set the email addresses in the config.json before running
@@ -37,3 +37,12 @@ IEX Percent `node run.js --ip=yes`
 
 ## Cryptocurrency
 `node run.js --c=yes`
+
+## Get Peer Stocks
+`node run.js --p=yes --s=aapl`
+
+## Get Stock News
+`node run.js --sn=yes --s=aapl`
+
+## Get Market News
+`node run.js --mn=yes`
