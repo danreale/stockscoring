@@ -10,6 +10,7 @@ import * as iv from "./iexVolume";
 import * as ip from "./iexPercent";
 import * as crypto from "./cryptocurrency";
 import * as dividend from "./dividends";
+import * as earnings from "./earnings";
 let score = 0; 
 
 var args = require('yargs')
@@ -72,12 +73,13 @@ async function getPrice(): Promise<void>{
 
 async function runStocks(): Promise<void>{
 let books: number = await book.getBook(stockSymbol);
-//console.log(books);
 score = score + books;
-//console.log('Score: ' + score);
 
 let dividends: number = await dividend.getDividends(stockSymbol);
 score = score + dividends;
+
+let earning: number =  await earnings.getEarnings(stockSymbol);
+score = score + earning;
 }
 
 async function scoreStock(): Promise<void>{
