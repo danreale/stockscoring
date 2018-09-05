@@ -14,6 +14,8 @@ import * as earnings from "./earnings";
 import * as peer from "./peers";
 import * as stockNews from "./stockNews";
 import * as marketNews from "./marketNews";
+import * as stats from "./stats";
+import * as financials from "./financials";
 let score = 0; 
 
 var args = require('yargs')
@@ -97,8 +99,14 @@ score = score + books;
 let dividends: number = await dividend.getDividends(stockSymbolScoring);
 score = score + dividends;
 
-let earning: number =  await earnings.getEarnings(stockSymbolScoring);
+let earning: number = await earnings.getEarnings(stockSymbolScoring);
 score = score + earning;
+
+let stat: number = await stats.getStats(stockSymbolScoring);
+score = score + stat;
+
+let financial: number = await financials.getFinancials(stockSymbolScoring);
+score = score + financial;
 }
 
 async function scoreStock(): Promise<void>{
