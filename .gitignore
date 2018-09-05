@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+# all js files. need to compile typescript files
+*.js

@@ -1,0 +1,33 @@
+{
+  "name": "stockscoring2",
+  "version": "0.0.1",
+  "description": "get score of stocks to help make better decisions when buying stocks",
+  "main": "run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danreale/stockscoring.git"
+  },
+  "keywords": [
+    "stocks"
+  ],
+  "author": "Daniel Reale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danreale/stockscoring/issues"
+  },
+  "homepage": "https://github.com/danreale/stockscoring#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "nodemailer": "^4.6.8",
+    "request": "^2.88.0",
+    "sleep": "^5.2.3",
+    "unirest": "^0.5.1",
+    "yargs": "^12.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^10.9.4"
+  }
+}

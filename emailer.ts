@@ -1,0 +1,30 @@
+var nodemailer = require('nodemailer');
+var config = require('./config.json');
+var outputLocation = config.downloadPath;
+
+export function sendEmail(symbol: string, body: any){
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: config.emailAddress,
+        pass: config.emailPassword
+    }
+});
+
+var mailOptions = {
+    from: config.emailAddress,
+    to: config.emailTo,
+    subject: `IPO Info for ${symbol}`,
+    text: body,
+};
+
+transporter.sendMail(mailOptions, function(error: any, info: any){
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Email sent: ' + info.response);
+    }
+});
+
+}
