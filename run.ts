@@ -9,6 +9,7 @@ import * as mf from "./mostFocus";
 import * as iv from "./iexVolume";
 import * as ip from "./iexPercent";
 import * as crypto from "./cryptocurrency";
+import * as dividend from "./dividends";
 let score = 0; 
 
 var args = require('yargs')
@@ -74,6 +75,9 @@ let books: number = await book.getBook(stockSymbol);
 //console.log(books);
 score = score + books;
 //console.log('Score: ' + score);
+
+let dividends: number = await dividend.getDividends(stockSymbol);
+score = score + dividends;
 }
 
 async function scoreStock(): Promise<void>{
