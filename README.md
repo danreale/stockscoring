@@ -6,9 +6,17 @@ Example on how to score Apple's stock
 `node run.js -s=aapl`
 
 ## IPO's
-node weeklyipos.js -e=djreale@gmail.com
+`node weeklyipos.js`
+Be sure to set the email addresses in the config.json before running
 
 ## How to compile typescript
-```//compile
-tsc -p ./tsconfig.json
-tsc```
+`tsc -p ./tsconfig.json`
+`tsc`
+
+### Example config.json
+```{
+    "baseUrl": "https://api.iextrading.com/1.0",
+    "emailAddress": "sentfrom@gmail.com",
+    "emailPassword": "test",
+    "emailTo": "sendto@gmail.com"
+}```
