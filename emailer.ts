@@ -1,6 +1,5 @@
 var nodemailer = require('nodemailer');
 var config = require('./config.json');
-var outputLocation = config.downloadPath;
 
 export function sendEmail(symbol: string, body: any){
 

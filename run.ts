@@ -1,5 +1,6 @@
 import * as book from "./book";
 import * as scoring from "./score";
+import * as price from "./price";
 let score = 0; 
 
 var args = require('yargs')
@@ -18,14 +19,17 @@ var args = require('yargs')
 let stockSymbol:string = args.stock;
 //var email = args.email; // on or off
 
-async function runStocks(): Promise<void>{
 
+async function getPrice(): Promise<void>{
+    let stockPrice = await price.getPrice(stockSymbol);
+    console.log(`Current Stock Price ${stockPrice}`);
+}
+
+async function runStocks(): Promise<void>{
 let books: number = await book.getBook(stockSymbol);
 //console.log(books);
 score = score + books;
-
 //console.log('Score: ' + score);
-
 }
 
 async function scoreStock(): Promise<void>{
@@ -34,6 +38,7 @@ async function scoreStock(): Promise<void>{
 }
 
 async function runAll(): Promise<void>{
+    await getPrice();
     await runStocks();
     await scoreStock();
 }

@@ -8,6 +8,7 @@ Example on how to score Apple's stock
 ## IPO's
 `node weeklyipos.js`
 Be sure to set the email addresses in the config.json before running
+I would create a Jenkins job to run this once a week (Monday's)
 
 ## How to compile typescript
 `tsc -p ./tsconfig.json`
