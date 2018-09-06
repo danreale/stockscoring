@@ -120,7 +120,7 @@ async function runAll(): Promise<void>{
     await scoreStock();
 }
 async function runIPO(): Promise<void>{
-    await ipo.getIPOS()
+    await ipo.getIPOS(email)
 }
 async function runMostActive(): Promise<void>{
     await ma.getMostActive();

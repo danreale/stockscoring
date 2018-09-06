@@ -4,7 +4,7 @@ import * as email from "./emailer";
 var config = require('./config.json');
 var baseUrl = config.baseUrl;
 
-export async function getIPOS(): Promise<void>{
+export async function getIPOS(emailParam:string): Promise<void>{
     let url: string = `${baseUrl}/stock/market/upcoming-ipos`;
     //console.log(url);
 
@@ -19,8 +19,10 @@ export async function getIPOS(): Promise<void>{
         let expectedDate: string = json.data.viewData[i].Expected;
         let price: string = json.data.viewData[i].Price;
         let desc: string =  json.data.rawData[i].companyDescription;
-
-        let body: string = `${symbol}, ${companyName}, ${expectedDate}, ${price} \n ${desc} \n`;
-        await email.sendEmail(symbol, body);
+        let body: string = `--------------------\n${symbol}, ${companyName}, ${expectedDate}, ${price} \n ${desc} \n`;
+        console.log(body);
+        if(emailParam === 'yes'){
+            await email.sendEmail(symbol, body);
+        }
     }
 }

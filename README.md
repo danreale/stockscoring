@@ -7,7 +7,9 @@ Example on how to score Apple's stock
 
 ## IPO's
 Be sure to set the email addresses in the config.json before running
-`node run.js --ipo=yes`
+No Email `node run.js --ipo=yes` or `node run.js --ipo=yes --e=no`
+
+With Email `node run.js --ipo=yes --e=yes`
 
 ## How to compile typescript
 `tsc -p ./tsconfig.json`
