@@ -14,7 +14,7 @@ export async function getFinancials(stockSymbol: string): Promise<number>{
 
     //Response Numbers needed for calculations
     let grossProfit: number = await json.data.financials[0].grossProfit;
-    console.log(grossProfit);
+    //console.log(grossProfit);
 
     //Technical Indicator Calculations
     await calcBeta('Gross Profit', grossProfit);

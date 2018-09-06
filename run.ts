@@ -26,9 +26,9 @@ var args = require('yargs')
     .describe('scoring', 'Stock symbol for scoring')
     .alias('sc', 'scoring')
     .default('sc', 'no')
-    //.describe('email', 'Email address')
-    //.alias('e', 'email')
-    //.default('email', 'off')
+    .describe('email', 'Email address')
+    .alias('e', 'email')
+    .default('email', 'no')
     .describe('mostactive', 'Most Active Stocks')
     .alias('ma', 'mostactive')
     .default('ma', 'no')
@@ -70,7 +70,7 @@ var args = require('yargs')
 
 let stockSymbol:string = args.stock;
 let stockSymbolScoring:string = args.scoring;
-//var email = args.email; // on or off
+var email = args.email;
 let mostActive:string = args.mostactive;
 let mostGained:string = args.mostgained;
 let mostLost:string = args.mostlost;
@@ -147,10 +147,10 @@ async function runPeers(): Promise<void>{
     await peer.getPeerStocks(stockSymbol);
 }
 async function runStockNews(): Promise<void>{
-    await stockNews.getStockNews(stockSymbol);
+    await stockNews.getStockNews(stockSymbol, email);
 }
 async function runMarketNews(): Promise<void>{
-    await marketNews.getMarketNews();
+    await marketNews.getMarketNews(email);
 }
 
 if(stockSymbolScoring != 'no'){

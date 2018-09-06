@@ -42,7 +42,13 @@ IEX Percent `node run.js --ip=yes`
 `node run.js --p=yes --s=aapl`
 
 ## Get Stock News
-`node run.js --sn=yes --s=aapl`
+No Email `node run.js --sn=yes --s=aapl`
+
+With Email `node run.js --sn=yes --e=yes --s=aapl`
+
+No Email `node run.js --sn=yes --e=no --s=aapl`
 
 ## Get Market News
-`node run.js --mn=yes`
+No Email `node run.js --mn=yes` or `node run.js --mn=yes --e=no`
+
+With Email `node run.js --mn=yes --e=yes`

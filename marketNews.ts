@@ -2,10 +2,11 @@ declare var require: any
 const axios = require("axios");
 let config = require('./config.json');
 let baseUrl = config.baseUrl;
+import * as emailer from "./newsEmailer";
 
-export async function getMarketNews(): Promise<void>{
+export async function getMarketNews(email:string): Promise<void>{
     let url: string = `${baseUrl}/stock/market/news/last/50`;
-
+    let emailBody:string = '';
     //get response
     let json = await axios.get(url);
 
@@ -17,10 +18,12 @@ export async function getMarketNews(): Promise<void>{
         let source:string = json.data[i].source;
         let url:string = json.data[i].url;
         let dt:string = json.data[i].datetime;
-        console.log(`--------------------`);
-        console.log(`${headline}`);
-        console.log(`${source}`);
-        console.log(`${url}`);
-        console.log(`${dt}`);
+        let body:string = `--------------------\n${headline}\n${source}\n${url}\n${dt}\n`;
+        console.log(body);
+        emailBody = emailBody + body;
     }
+    if(email === 'yes'){
+        await emailer.sendNewsEmail('Market', emailBody);
+    }
+    
 }

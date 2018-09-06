@@ -1,7 +1,7 @@
 var nodemailer = require('nodemailer');
 var config = require('./config.json');
 
-export function sendEmail(symbol: string, body: any){
+export async function sendEmail(symbol: string, body: any){
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -18,7 +18,7 @@ var mailOptions = {
     text: body,
 };
 
-transporter.sendMail(mailOptions, function(error: any, info: any){
+await transporter.sendMail(mailOptions, function(error: any, info: any){
     if (error) {
         console.log(error);
     } else {
@@ -26,4 +26,31 @@ transporter.sendMail(mailOptions, function(error: any, info: any){
     }
 });
 
+}
+
+
+export function sendNewsEmail(symbol: string, body: any){
+
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: config.emailAddress,
+            pass: config.emailPassword
+        }
+    });
+    
+    var mailOptions = {
+        from: config.emailAddress,
+        to: config.emailTo,
+        subject: `${symbol} News`,
+        text: body,
+    };
+    
+    transporter.sendMail(mailOptions, function(error: any, info: any){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });    
 }

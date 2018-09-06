@@ -1,6 +1,6 @@
 declare var require: any
 const axios = require("axios");
-const email = require('./emailer');
+import * as email from "./emailer";
 var config = require('./config.json');
 var baseUrl = config.baseUrl;
 
