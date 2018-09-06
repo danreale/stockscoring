@@ -1,6 +1,6 @@
 declare var require: any
 const axios = require("axios");
-let config = require('./config.json');
+let config = require('../config.json');
 let baseUrl = config.baseUrl;
 
 export async function getPrice(stockSymbol: string): Promise<number>{

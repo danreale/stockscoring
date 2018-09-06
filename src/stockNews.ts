@@ -1,16 +1,16 @@
 declare var require: any
 const axios = require("axios");
-let config = require('./config.json');
+let config = require('../config.json');
 let baseUrl = config.baseUrl;
 import * as emailer from "./newsEmailer";
 
-export async function getMarketNews(email:string): Promise<void>{
-    let url: string = `${baseUrl}/stock/market/news/last/50`;
+export async function getStockNews(stock:string, email:string): Promise<void>{
+    let url: string = `${baseUrl}/stock/${stock}/news/last/50`;
     let emailBody:string = '';
     //get response
     let json = await axios.get(url);
 
-    console.log(`----------Market News----------`);
+    console.log(`----------${stock} News----------`);
     let items: number = await json.data.length;
     
     for(var i = 0; i < items; i++){
@@ -23,7 +23,6 @@ export async function getMarketNews(email:string): Promise<void>{
         emailBody = emailBody + body;
     }
     if(email === 'yes'){
-        await emailer.sendNewsEmail('Market', emailBody);
+        await emailer.sendNewsEmail(`${stock} Stock`, emailBody);
     }
-    
 }

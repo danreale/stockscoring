@@ -1,7 +1,7 @@
 declare var require: any
 const axios = require("axios");
 let score = 0;
-let config = require('./config.json');
+let config = require('../config.json');
 let baseUrl = config.baseUrl;
 
 export async function getBook(stockSymbol: string): Promise<number>{

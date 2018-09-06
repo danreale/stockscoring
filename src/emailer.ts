@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer');
-var config = require('./config.json');
+var config = require('../config.json');
 
 export async function sendEmail(symbol: string, body: any){
 

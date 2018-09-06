@@ -1,7 +1,7 @@
 declare var require: any
 const axios = require("axios");
 import * as email from "./emailer";
-var config = require('./config.json');
+var config = require('../config.json');
 var baseUrl = config.baseUrl;
 
 export async function getIPOS(emailParam:string): Promise<void>{
