@@ -1,31 +1,30 @@
-declare var require: any
 const axios = require("axios");
 let score = 0;
-let config = require('../config.json');
-let baseUrl = config.baseUrl;
+const config = require("../config.json");
+const baseUrl = config.baseUrl;
 
 export async function getStats(stockSymbol: string): Promise<number>{
-    let url: string = `${baseUrl}/stock/${stockSymbol}/stats`;
-    let scoring:number;
+    const url: string = `${baseUrl}/stock/${stockSymbol}/stats`;
+    let scoring: number;
     await setScore();
 
-    //get response
-    let json = await axios.get(url);
+    // get response
+    const json = await axios.get(url);
 
-    //Response Numbers needed for calculations
-    let beta: number = await json.data.beta;
-    
-    //Technical Indicator Calculations
-    await calcBeta('Beta', beta);
+    // Response Numbers needed for calculations
+    const beta: number = await json.data.beta;
+
+    // Technical Indicator Calculations
+    await calcBeta("Beta", beta);
     scoring = await getScore();
 
-    //return score
+    // return score
     return scoring;
 }
 
-
-async function calcBeta(stat:string, value:number) {
-
+async function calcBeta(stat: string, value: number) {
+    // console.log(stat);
+    // console.log(value);
 }
 async function getScore(){
     return score;

@@ -4,7 +4,8 @@
   "description": "get score of stocks to help make better decisions when buying stocks",
   "main": "run.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compilets": "rm ./js/src/*.js; rm ./js/*.js; rm ./js/*.json; cp config.json ./js/config.json; tsc -p ./tsconfig.json;"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,8 @@
     "yargs": "^12.0.1"
   },
   "devDependencies": {
-    "@types/node": "^10.9.4"
+    "@types/node": "^10.9.4",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
   }
 }

@@ -1,11 +1,10 @@
-declare var require: any
 const axios = require("axios");
-let config = require('../config.json');
-let baseUrl = config.baseUrl;
+const config = require("../config.json");
+const baseUrl = config.baseUrl;
 
 export async function getPrice(stockSymbol: string): Promise<number>{
-    let url: string = `${baseUrl}/stock/${stockSymbol}/price`;
-    let json = await axios.get(url);
-    let price: number = await json.data;
+    const url: string = `${baseUrl}/stock/${stockSymbol}/price`;
+    const json = await axios.get(url);
+    const price: number = await json.data;
     return price;
 }

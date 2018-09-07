@@ -1,29 +1,26 @@
-declare var require: any
 const axios = require("axios");
-let config = require('../config.json');
-let baseUrl = config.baseUrl;
+const config = require("../config.json");
+const baseUrl = config.baseUrl;
 import * as emailer from "./newsEmailer";
 
-export async function getMarketNews(email:string): Promise<void>{
-    let url: string = `${baseUrl}/stock/market/news/last/50`;
-    let emailBody:string = '';
-    //get response
-    let json = await axios.get(url);
+export async function getMarketNews(email: string): Promise<void>{
+    const url: string = `${baseUrl}/stock/market/news/last/50`;
+    let emailBody: string = "";
+    // get response
+    const json = await axios.get(url);
 
     console.log(`----------Market News----------`);
-    let items: number = await json.data.length;
-    
-    for(var i = 0; i < items; i++){
-        let headline:string = json.data[i].headline;
-        let source:string = json.data[i].source;
-        let url:string = json.data[i].url;
-        let dt:string = json.data[i].datetime;
-        let body:string = `--------------------\n${headline}\n${source}\n${url}\n${dt}\n`;
+    const items: number = await json.data.length;
+    for (let i = 0; i < items; i++) {
+        const headline: string = json.data[i].headline;
+        const source: string = json.data[i].source;
+        const sUrl: string = json.data[i].url;
+        const dt: string = json.data[i].datetime;
+        const body: string = `--------------------\n${headline}\n${source}\n${sUrl}\n${dt}\n`;
         console.log(body);
         emailBody = emailBody + body;
     }
-    if(email === 'yes'){
-        await emailer.sendNewsEmail('Market', emailBody);
+    if (email === "yes") {
+        await emailer.sendNewsEmail("Market", emailBody);
     }
-    
 }

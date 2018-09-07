@@ -1,21 +1,20 @@
-declare var require: any
 const axios = require("axios");
-let config = require('../config.json');
-let baseUrl = config.baseUrl;
+const config = require("../config.json");
+const baseUrl = config.baseUrl;
 
 export async function getMostActive(): Promise<void>{
-    let url: string = `${baseUrl}/stock/market/list/mostactive`;
+    const url: string = `${baseUrl}/stock/market/list/mostactive`;
 
-    //get response
-    let json = await axios.get(url);
-    console.log('----------Most Active----------');
-    let items: number = await json.data.length;
-    for(var i = 0; i < items; i++){
-        let symbol: string = json.data[i].symbol;
-        let companyName: string = json.data[i].companyName;
-        let sector: string = json.data[i].sector;
-        let latestPrice: string = json.data[i].latestPrice;
-        console.log('----------');
+    // get response
+    const json = await axios.get(url);
+    console.log("----------Most Active----------");
+    const items: number = await json.data.length;
+    for (let i = 0; i < items; i++){
+        const symbol: string = json.data[i].symbol;
+        const companyName: string = json.data[i].companyName;
+        const sector: string = json.data[i].sector;
+        const latestPrice: string = json.data[i].latestPrice;
+        console.log("----------");
         console.log(symbol);
         console.log(companyName);
         console.log(sector);

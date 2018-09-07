@@ -61,4 +61,4 @@ typings/
 .next
 
 # all js files. need to compile typescript files
-*.js
+/js

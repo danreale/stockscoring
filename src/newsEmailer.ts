@@ -1,28 +1,25 @@
-var nodemailer = require('nodemailer');
-var config = require('../config.json');
+const nodemailer = require("nodemailer");
+const config = require("../config.json");
 
-export async function sendNewsEmail(news: string, body: any){
-
-    var transporter = nodemailer.createTransport({
-        service: 'gmail',
+export async function sendNewsEmail(news: string, body: any) {
+    const transporter = nodemailer.createTransport({
         auth: {
+            pass: config.emailPassword,
             user: config.emailAddress,
-            pass: config.emailPassword
-        }
+        },
+        service: "gmail",
     });
-    
-    var mailOptions = {
+    const mailOptions = {
         from: config.emailAddress,
-        to: config.emailTo,
         subject: `${news} News`,
         text: body,
+        to: config.emailTo,
     };
-    
     await transporter.sendMail(mailOptions, function(error: any, info: any){
         if (error) {
             console.log(error);
         } else {
-            console.log('Email sent: ' + info.response);
+            console.log("Email sent: " + info.response);
         }
-    });    
+    });
 }
