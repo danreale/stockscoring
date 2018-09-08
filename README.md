@@ -7,7 +7,7 @@ Example on how to score Apple's stock
 `node ./js/run.js --sc=aapl`
 
 ### Options
-`-v=on` shows all the console logging. This option is only valid on getting a single stock's info. 
+`--v=on` shows all the console logging. This option is only valid on getting a single stock's info. 
 
 Example: `node ./js/run.js --sc=aapl --v=on`
 
