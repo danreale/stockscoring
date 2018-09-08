@@ -6,6 +6,15 @@ Example on how to score Apple's stock
 
 `node ./js/run.js --sc=aapl`
 
+### Options
+`-v=on` shows all the console logging. This option is only valid on getting a single stock's info. 
+
+Example: `node ./js/run.js --sc=aapl --v=on`
+
+Default for `--v` is off
+
+When verbose logging is off, then you will only see the stock name, the current price, and the final score of the stock.
+
 ## IPO's
 Be sure to set the email addresses in the config.json before trying to send an email
 

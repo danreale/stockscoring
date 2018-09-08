@@ -2,8 +2,9 @@ const axios = require("axios");
 let score = 0;
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+import * as techScore from "./techScore";
 
-export async function getStats(stockSymbol: string): Promise<number>{
+export async function getStats(stockSymbol: string, verbose: string): Promise<number>{
     const url: string = `${baseUrl}/stock/${stockSymbol}/stats`;
     let scoring: number;
     await setScore();
@@ -15,14 +16,20 @@ export async function getStats(stockSymbol: string): Promise<number>{
     const beta: number = await json.data.beta;
 
     // Technical Indicator Calculations
-    await calcBeta("Beta", beta);
+    await calcBeta("Beta", beta, verbose);
     scoring = await getScore();
+
+    // technical score
+    if (verbose === "on") {
+        const tech = await techScore.interpretScore("Stats", scoring, 1, 0);
+        console.log(tech);
+    }
 
     // return score
     return scoring;
 }
 
-async function calcBeta(stat: string, value: number) {
+async function calcBeta(stat: string, value: number, verbose: string) {
     // console.log(stat);
     // console.log(value);
 }

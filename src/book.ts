@@ -2,13 +2,14 @@ const axios = require("axios");
 let score = 0;
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+import * as techScore from "./techScore";
 
-export async function getBook(stockSymbol: string): Promise<number>{
+export async function getBook(stockSymbol: string, verbose: string): Promise<number>{
+    // const verb: string = verbose;
     const url: string = `${baseUrl}/stock/${stockSymbol}/book`;
     // console.log(url);
     let scoring: number;
     await setScore();
-
     // get response
     const json = await axios.get(url);
 
@@ -29,13 +30,19 @@ export async function getBook(stockSymbol: string): Promise<number>{
     // Technical Indicator Calculations
     const info: string = await companyInfo(symbol, companyName);
     console.log(info);
-    await calcPrice("Open Close Price", openPrice, closePrice);
-    await calcPERatio("PERatio", peRatio);
-    await calc52WeekHighLow("52 Week High Low", high, low, week52High, week52Low, closePrice);
-    await calcMarketCap(marketCap);
-    await calcChange(change);
-    await calcChangePercent(changePercent);
+    await calcPrice("Open Close Price", openPrice, closePrice, verbose);
+    await calcPERatio("PERatio", peRatio, verbose);
+    await calc52WeekHighLow("52 Week High Low", high, low, week52High, week52Low, closePrice, verbose);
+    await calcMarketCap(marketCap, verbose);
+    await calcChange(change, verbose);
+    await calcChangePercent(changePercent, verbose);
     scoring = await getScore();
+
+    // technical score
+    if (verbose === "on") {
+        const tech = await techScore.interpretScore("Book", scoring, 13, 8);
+        console.log(tech);
+    }
 
     // return score
     return scoring;
@@ -44,138 +51,186 @@ export async function getBook(stockSymbol: string): Promise<number>{
 async function companyInfo(symbol: string, companyName: string){
     return `${symbol}: ${companyName}`;
 }
-async function calcPrice(stat: string, open: number, close: number){
+async function calcPrice(stat: string, open: number, close: number, verbose: string){
     if (open > close){
         score = score - 1;
-        console.log(`Stock went down in price on the day`);
-        console.log(`${stat} is bearish -1`);
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log(`Stock went down in price on the day`);
+            console.log(`${stat} is bearish -1`);
+            console.log(`current score is ${score}`);
+        }
     }
     else if (open < close){
         score = score + 1;
-        console.log(`Stock went up in price on the day`);
-        console.log(`${stat} is bullish +1`);
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log(`Stock went up in price on the day`);
+            console.log(`${stat} is bullish +1`);
+            console.log(`current score is ${score}`);
+        }
     }
     else{
-        console.log(`${stat} was not scored`);
+        if (verbose === "on") {
+            console.log(`${stat} was not scored`);
+        }
     }
 }
 
-async function calcPERatio(stat: string, value: number){
+async function calcPERatio(stat: string, value: number, verbose: string){
     if (value >= 20){
         score = score + 1;
-        console.log(`${stat} is bullish +1`);
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log(`${stat} is bullish +1`);
+            console.log(`current score is ${score}`);
+        }
     }
     else if (value < 20){
         score = score - 1;
-        console.log(`${stat} is bearish -1`);
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log(`${stat} is bearish -1`);
+            console.log(`current score is ${score}`);
+        }
     }
     else{
         score = score - 2;
-        console.log("Company is losing money");
-        console.log(`${stat} was not scored -2`);
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Company is losing money");
+            console.log(`${stat} was not scored -2`);
+            console.log(`current score is ${score}`);
+        }
     }
 }
 
-async function calc52WeekHighLow(stat: string, dailyHigh: number, dailyLow: number, high: number, low: number, close: number){
-    console.log(`${stat}`);
+async function calc52WeekHighLow(stat: string, dailyHigh: number, dailyLow: number, high: number, low: number, close: number, verbose: string){
+    if (verbose === "on") {
+        console.log(`${stat}`);
+    }
     if (dailyHigh > high){
-        console.log("Trending towards 52 Week High. Moving Higher +1");
         score = score + 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Trending towards 52 Week High. Moving Higher +1");
+            console.log(`current score is ${score}`);
+        }
     }
     if (dailyHigh < high){
-        console.log("Daily high did not go above 52 week high +0");
         score = score + 0;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Daily high did not go above 52 week high +0");
+            console.log(`current score is ${score}`);
+        }
     }
     if (dailyLow < low){
-        console.log("Trending towards 52 Week Low. Moving Lower -1");
         score = score - 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Trending towards 52 Week Low. Moving Lower -1");
+            console.log(`current score is ${score}`);
+        }
     }
     if (dailyLow > low){
-        console.log("Daily low did not go below 52 week low +1");
         score = score + 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Daily low did not go below 52 week low +1");
+            console.log(`current score is ${score}`);
+        }
     }
     if (close >= high){
-        console.log("Above 52 Week High. Moving Higher. Buy / Stop Gains +2");
         score = score + 2;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Above 52 Week High. Moving Higher. Buy / Stop Gains +2");
+            console.log(`current score is ${score}`);
+        }
     }
     if (close <= low){
-        console.log("Below 52 Week Low. Moving Lower. Sell. Good Time to Short -2");
         score = score - 2;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Below 52 Week Low. Moving Lower. Sell. Good Time to Short -2");
+            console.log(`current score is ${score}`);
+        }
     }
 }
 
-async function calcMarketCap(marketCap: number){
+async function calcMarketCap(marketCap: number, verbose: string){
     if (marketCap >= 200000000000){
-        console.log("Mega Cap. Low Risk, Low Return. Blue Chip. +6");
         score = score + 6;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Mega Cap. Low Risk, Low Return. Blue Chip. +6");
+            console.log(`current score is ${score}`);
+        }
     }
     else if ((marketCap < 200000000000) && (marketCap > 10000000000)){
-        console.log("Large Cap. Stable and Secure. Blue Chip. +5");
         score = score + 5;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Large Cap. Stable and Secure. Blue Chip. +5");
+            console.log(`current score is ${score}`);
+        }
     }
     else if ((marketCap < 10000000000) && (marketCap > 2000000000)){
-        console.log("Mid Cap. Stable but more volatile. On way to becoming large cap stock. +4");
         score = score + 4;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Mid Cap. Stable but more volatile. On way to becoming large cap stock. +4");
+            console.log(`current score is ${score}`);
+        }
     }
     else if ((marketCap < 2000000000) && (marketCap > 300000000)){
-        console.log("Small Cap. More volatile. Greater Risk +3");
         score = score + 3;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Small Cap. More volatile. Greater Risk +3");
+            console.log(`current score is ${score}`);
+        }
     }
     else if ((marketCap < 300000000) && (marketCap > 50000000)){
-        console.log("Micro Cap. Penny Stocks. Great Risk. Not a safe investment +2");
         score = score + 2;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Micro Cap. Penny Stocks. Great Risk. Not a safe investment +2");
+            console.log(`current score is ${score}`);
+        }
     }
     else if (marketCap < 50000000){
-        console.log("Nano Cap. Most Risky. Potential for gain is small. +1");
         score = score + 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Nano Cap. Most Risky. Potential for gain is small. +1");
+            console.log(`current score is ${score}`);
+        }
     }
 }
 
-async function calcChange(change: number){
+async function calcChange(change: number, verbose: string){
     if (change >= 0){
-        console.log("Positive Change. +1");
         score = score + 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Positive Change. +1");
+            console.log(`current score is ${score}`);
+        }
     }
     else if (change < 0){
-        console.log("Negative Change. -1");
         score = score - 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Negative Change. -1");
+            console.log(`current score is ${score}`);
+        }
     }
 }
 
-async function calcChangePercent(changePercent: number){
+async function calcChangePercent(changePercent: number, verbose: string){
     if (changePercent >= 1){
-        console.log("Positive Change. +2");
         score = score + 2;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Positive Change. +2");
+            console.log(`current score is ${score}`);
+        }
     }
     else if (changePercent < 0){
-        console.log("Negative Change. -1");
         score = score - 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Negative Change. -1");
+            console.log(`current score is ${score}`);
+        }
     }
     else{
-        console.log("Small Change. +1");
         score = score + 1;
-        console.log(`current score is ${score}`);
+        if (verbose === "on") {
+            console.log("Small Change. +1");
+            console.log(`current score is ${score}`);
+        }
     }
 }
 

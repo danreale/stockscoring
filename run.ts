@@ -63,6 +63,9 @@ const args = require("yargs")
     .describe("marketnews", "Market News")
     .alias("mn", "marketnews")
     .default("mn", "no")
+    .describe("verbose", "Verbose Logging")
+    .alias("v", "verbose")
+    .default("v", "no")
     // .demandOption(["s"])
     .help("h")
     .alias("h", "help")
@@ -83,7 +86,7 @@ const args = require("yargs")
     const peers: string = args.peers;
     const stocknews: string = args.stocknews;
     const marketnews: string = args.marketnews;
-
+    const verbose: string = args.verbose;
 // console.log(stockSymbol);
 // console.log(mostActive);
 
@@ -93,25 +96,33 @@ async function getPrice(): Promise<void>{
 }
 
 async function runStocks(): Promise<void>{
-    const books: number = await book.getBook(stockSymbolScoring);
-score = score + books;
-console.log(`Updated Score after Books is ${score}`);
+    const books: number = await book.getBook(stockSymbolScoring, verbose);
+    score = score + books;
+    if (verbose === "on") {
+        console.log(`Updated Score after Books is ${score}`);
+    }
 
-const dividends: number = await dividend.getDividends(stockSymbolScoring);
-score = score + dividends;
-console.log(`Updated Score after Dividends is ${score}`);
+    const dividends: number = await dividend.getDividends(stockSymbolScoring, verbose);
+    score = score + dividends;
+    if (verbose === "on") {
+        console.log(`Updated Score after Dividends is ${score}`);
+    }
+    const earning: number = await earnings.getEarnings(stockSymbolScoring, verbose);
+    score = score + earning;
+    if (verbose === "on") {
+        console.log(`Updated Score after Earnings is ${score}`);
+    }
+    const stat: number = await stats.getStats(stockSymbolScoring, verbose);
+    score = score + stat;
+    if (verbose === "on") {
+        console.log(`Updated Score after Stats is ${score}`);
+    }
 
-const earning: number = await earnings.getEarnings(stockSymbolScoring);
-score = score + earning;
-console.log(`Updated Score after Earnings is ${score}`);
-
-const stat: number = await stats.getStats(stockSymbolScoring);
-score = score + stat;
-console.log(`Updated Score after Stats is ${score}`);
-
-const financial: number = await financials.getFinancials(stockSymbolScoring);
-score = score + financial;
-console.log(`Updated Score after Financials is ${score}`);
+    const financial: number = await financials.getFinancials(stockSymbolScoring, verbose);
+    score = score + financial;
+    if (verbose === "on") {
+        console.log(`Updated Score after Financials is ${score}`);
+    }
 }
 
 async function scoreStock(): Promise<void>{
