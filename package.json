@@ -5,7 +5,17 @@
   "main": "run.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compilets": "rm ./js/src/*.js; rm ./js/*.js; rm ./js/*.json; cp config.json ./js/config.json; tsc -p ./tsconfig.json;"
+    "compilets": "rm ./js/src/*.js; rm ./js/*.js; rm ./js/*.json; cp config.json ./js/config.json; tsc -p ./tsconfig.json;",
+    "sector": "node ./js/run.js --sec=yes",
+    "marketnews": "node ./js/run.js --mn=yes",
+    "crypto": "node ./js/run.js --c=yes",
+    "ipo": "node ./js/run.js --ipo=yes",
+    "active": "node ./js/run.js --ma=yes",
+    "gained": "node ./js/run.js --mg=yes",
+    "loser": "node ./js/run.js --ml=yes",
+    "focus": "node ./js/run.js --mf=yes",
+    "volume": "node ./js/run.js --iv=yes",
+    "percent": "node ./js/run.js --ip=yes"
   },
   "repository": {
     "type": "git",

@@ -12,7 +12,9 @@ import * as mg from "./src/mostGained";
 import * as ml from "./src/mostLosers";
 import * as peer from "./src/peers";
 import * as price from "./src/price";
+import * as ref from "./src/ref";
 import * as scoring from "./src/score";
+import * as sector from "./src/sectors";
 import * as stats from "./src/stats";
 import * as stockNews from "./src/stockNews";
 import * as ipo from "./src/weeklyIpos";
@@ -66,6 +68,9 @@ const args = require("yargs")
     .describe("verbose", "Verbose Logging")
     .alias("v", "verbose")
     .default("v", "no")
+    .describe("sectors", "Sectors Change")
+    .alias("sec", "sectors")
+    .default("sec", "no")
     // .demandOption(["s"])
     .help("h")
     .alias("h", "help")
@@ -87,6 +92,7 @@ const args = require("yargs")
     const stocknews: string = args.stocknews;
     const marketnews: string = args.marketnews;
     const verbose: string = args.verbose;
+    const sectors: string = args.sectors;
 // console.log(stockSymbol);
 // console.log(mostActive);
 
@@ -131,9 +137,15 @@ async function scoreStock(): Promise<void>{
 }
 
 async function runAll(): Promise<void>{
-    await getPrice();
-    await runStocks();
-    await scoreStock();
+    const found = await ref.checkStock(stockSymbolScoring);
+    if (found === "yes"){
+        await getPrice();
+        await runStocks();
+        await scoreStock();
+    }
+    else {
+        console.log(`Stock ${stockSymbolScoring} is not available for scoring.`);
+    }
 }
 async function runIPO(): Promise<void>{
     await ipo.getIPOS(email);
@@ -160,13 +172,28 @@ async function runCryptocurrency(): Promise<void>{
     await crypto.getCryptocurrency();
 }
 async function runPeers(): Promise<void>{
-    await peer.getPeerStocks(stockSymbol);
+    const found = await ref.checkStock(stockSymbol);
+    if (found === "yes"){
+        await peer.getPeerStocks(stockSymbol);
+    }
+    else {
+        console.log(`Stock ${stockSymbol} is not found.`);
+    }
 }
 async function runStockNews(): Promise<void>{
-    await stockNews.getStockNews(stockSymbol, email);
+    const found = await ref.checkStock(stockSymbol);
+    if (found === "yes"){
+        await stockNews.getStockNews(stockSymbol, email);
+    }
+    else {
+        console.log(`Stock ${stockSymbol} is not found.`);
+    }
 }
 async function runMarketNews(): Promise<void>{
     await marketNews.getMarketNews(email);
+}
+async function runSectorPerformance(): Promise<void>{
+    await sector.getSector();
 }
 
 if (stockSymbolScoring !== "no") {
@@ -204,4 +231,7 @@ if ((stocknews === "yes") && (stockSymbol !== "no")) {
 }
 if (marketnews === "yes") {
     runMarketNews();
+}
+if (sectors === "yes") {
+    runSectorPerformance();
 }

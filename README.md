@@ -63,3 +63,6 @@ With Email `node ./js/run.js --sn=yes --e=yes --s=aapl`
 No Email `node ./js/run.js --mn=yes` or `node ./js/run.js --mn=yes --e=no`
 
 With Email `node ./js/run.js --mn=yes --e=yes`
+
+## Get Sector Performance
+`node ./js/run.js --sec=yes`
