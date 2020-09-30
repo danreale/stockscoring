@@ -1,10 +1,11 @@
 const axios = require("axios");
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 import * as emailer from "./newsEmailer";
 
 export async function getMarketNews(email: string): Promise<void>{
-    const url: string = `${baseUrl}/stock/market/news/last/50`;
+    const url: string = `${baseUrl}/stock/market/news/last/50?token=${apiKey}`;
     let emailBody: string = "";
     // get response
     const json = await axios.get(url);

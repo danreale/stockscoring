@@ -2,10 +2,11 @@ const axios = require("axios");
 let score = 0;
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 import * as techScore from "./techScore";
 
 export async function getFinancials(stockSymbol: string, verbose: string): Promise<number>{
-    const url: string = `${baseUrl}/stock/${stockSymbol}/financials`;
+    const url: string = `${baseUrl}/stock/${stockSymbol}/financials?token=${apiKey}`;
     let scoring: number;
     await setScore();
 
@@ -21,7 +22,7 @@ export async function getFinancials(stockSymbol: string, verbose: string): Promi
     scoring = await getScore();
 
     // technical score
-    if (verbose === "on") {
+    if (verbose === "yes") {
         const tech = await techScore.interpretScore("Financials", scoring, 1, 0);
         console.log(tech);
     }
@@ -31,8 +32,11 @@ export async function getFinancials(stockSymbol: string, verbose: string): Promi
 }
 
 async function calcBeta(stat: string, value: number, verbose: string) {
-    // console.log(stat);
-    // console.log(value);
+    if (verbose === "yes") {
+        console.log(stat);
+        console.log(value);
+    }
+
 }
 async function getScore(){
     return score;

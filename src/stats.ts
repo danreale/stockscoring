@@ -3,9 +3,10 @@ let score = 0;
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
 import * as techScore from "./techScore";
+const apiKey = config.apiKey;
 
 export async function getStats(stockSymbol: string, verbose: string): Promise<number>{
-    const url: string = `${baseUrl}/stock/${stockSymbol}/stats`;
+    const url: string = `${baseUrl}/stock/${stockSymbol}/stats?token=${apiKey}`;
     let scoring: number;
     await setScore();
 
@@ -20,7 +21,7 @@ export async function getStats(stockSymbol: string, verbose: string): Promise<nu
     scoring = await getScore();
 
     // technical score
-    if (verbose === "on") {
+    if (verbose === "yes") {
         const tech = await techScore.interpretScore("Stats", scoring, 1, 0);
         console.log(tech);
     }
@@ -30,8 +31,10 @@ export async function getStats(stockSymbol: string, verbose: string): Promise<nu
 }
 
 async function calcBeta(stat: string, value: number, verbose: string) {
-    // console.log(stat);
-    // console.log(value);
+    if (verbose === "yes") {
+        console.log(stat);
+        console.log(value);
+    }
 }
 async function getScore(){
     return score;

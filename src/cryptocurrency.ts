@@ -1,9 +1,10 @@
 const axios = require("axios");
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 
 export async function getCryptocurrency(): Promise<void>{
-    const url: string = `${baseUrl}/stock/market/crypto?displayPercent=true`;
+    const url: string = `${baseUrl}/stock/market/crypto?displayPercent=true&token=${apiKey}`;
 
     // get response
     const json = await axios.get(url);

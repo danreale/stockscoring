@@ -2,10 +2,11 @@ const axios = require("axios");
 let score = 0;
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 import * as techScore from "./techScore";
 
 export async function getDividends(stock: string, verbose: string): Promise<number>{
-    const url: string = `${baseUrl}/stock/${stock}/dividends/5y`;
+    const url: string = `${baseUrl}/stock/${stock}/dividends/5y?token=${apiKey}`;
 
     let scoring: number;
     await setScore();
@@ -15,12 +16,12 @@ export async function getDividends(stock: string, verbose: string): Promise<numb
     let dividend: any;
     try {
         dividend = json.data[0].amount;
-        if (verbose === "on") {
+        if (verbose === "yes") {
             console.log(`Dividend ${dividend}`);
         }
     } catch (error) {
         dividend = "none";
-        if (verbose === "on") {
+        if (verbose === "yes") {
             console.log("No Dividend");
         }
     }
@@ -29,7 +30,7 @@ export async function getDividends(stock: string, verbose: string): Promise<numb
     scoring = await getScore();
 
     // technical score
-    if (verbose === "on") {
+    if (verbose === "yes") {
         const tech = await techScore.interpretScore("Dividends", scoring, 1, 0);
         console.log(tech);
     }
@@ -41,14 +42,14 @@ export async function getDividends(stock: string, verbose: string): Promise<numb
 async function calcDividends(stat: string, value: any, verbose: string){
     if (value >= 0){
         score = score + 1;
-        if (verbose === "on") {
+        if (verbose === "yes") {
             console.log(`${stat} is bullish +1`);
             console.log(`current score is ${score}`);
         }
     }
     else if (value === "mone"){
         score = score - 1;
-        if (verbose === "on") {
+        if (verbose === "yes") {
             console.log(`${stat} is bearish -1`);
             console.log(`current score is ${score}`);
         }

@@ -1,10 +1,11 @@
 const axios = require("axios");
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 let found: string = "no";
 
 export async function checkStock(stockSymbol: string): Promise<string>{
-    const url: string = `${baseUrl}/ref-data/symbols`;
+    const url: string = `${baseUrl}/ref-data/symbols?token=${apiKey}`;
     const json = await axios.get(url);
     const symbolLen: number = await json.data.length;
     // console.log(symbolLen);

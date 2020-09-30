@@ -104,29 +104,29 @@ async function getPrice(): Promise<void>{
 async function runStocks(): Promise<void>{
     const books: number = await book.getBook(stockSymbolScoring, verbose);
     score = score + books;
-    if (verbose === "on") {
+    if (verbose === "yes") {
         console.log(`Updated Score after Books is ${score}`);
     }
 
     const dividends: number = await dividend.getDividends(stockSymbolScoring, verbose);
     score = score + dividends;
-    if (verbose === "on") {
+    if (verbose === "yes") {
         console.log(`Updated Score after Dividends is ${score}`);
     }
     const earning: number = await earnings.getEarnings(stockSymbolScoring, verbose);
     score = score + earning;
-    if (verbose === "on") {
+    if (verbose === "yes") {
         console.log(`Updated Score after Earnings is ${score}`);
     }
     const stat: number = await stats.getStats(stockSymbolScoring, verbose);
     score = score + stat;
-    if (verbose === "on") {
+    if (verbose === "yes") {
         console.log(`Updated Score after Stats is ${score}`);
     }
 
     const financial: number = await financials.getFinancials(stockSymbolScoring, verbose);
     score = score + financial;
-    if (verbose === "on") {
+    if (verbose === "yes") {
         console.log(`Updated Score after Financials is ${score}`);
     }
 }

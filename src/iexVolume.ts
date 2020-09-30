@@ -1,9 +1,10 @@
 const axios = require("axios");
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 
 export async function getIexVolume(): Promise<void>{
-    const url: string = `${baseUrl}/stock/market/list/iexvolume`;
+    const url: string = `${baseUrl}/stock/market/list/iexvolume?token=${apiKey}`;
 
     // get response
     const json = await axios.get(url);

@@ -1,0 +1,24 @@
+{
+  "company": {
+    "stock": "CCL",
+    "open": 15.25,
+    "close": 15.07,
+    "high": 15.43,
+    "low": 14.815,
+    "volume": 23496032,
+    "splitFactor": 1,
+    "marketCap": 15329.41
+  },
+  "peers": [
+    "MAR",
+    "HLT",
+    "RCL",
+    "CCL",
+    "H",
+    "CHH",
+    "NCLH",
+    "WH",
+    "VAC",
+    "WYND"
+  ]
+}

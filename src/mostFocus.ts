@@ -1,9 +1,10 @@
 const axios = require("axios");
 const config = require("../config.json");
 const baseUrl = config.baseUrl;
+const apiKey = config.apiKey;
 
 export async function getMostInFocus(): Promise<void>{
-    const url: string = `${baseUrl}/stock/market/list/infocus`;
+    const url: string = `${baseUrl}/stock/market/list/infocus?token=${apiKey}`;
     // get response
     const json = await axios.get(url);
     console.log("----------Most In Focus----------");
