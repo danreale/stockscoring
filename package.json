@@ -39,7 +39,7 @@
     "dotenv": "^8.2.0",
     "inquirer": "^7.3.3",
     "lowdb": "^1.0.0",
-    "moment": "^2.29.0",
+    "moment": "^2.29.2",
     "nodemailer": "^4.6.8",
     "ora": "^5.1.0",
     "request": "^2.88.2",
